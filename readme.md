@@ -17,7 +17,8 @@ HTTP-triggered functions in the compilation.
 
 ![endpoints screenshot](https://raw.githubusercontent.com/devlooped/Azure.Functions.OpenApi/main/assets/img/endpoints.png)
 
-This assumes the `routePrefix` has been configured as empty (to override the default of `/api`) with:
+This assumes the `routePrefix` has been configured as empty (to override the default of `/api`) 
+in [host.json](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-http-webhook-output#hostjson-settings):
 
 ```json
 {
