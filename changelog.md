@@ -1,5 +1,13 @@
 
 
+## [v0.3.1](https://github.com/devlooped/Azure.Functions.OpenApi/tree/v0.3.1) (2021-09-30)
+
+[Full Changelog](https://github.com/devlooped/Azure.Functions.OpenApi/compare/v0.3.0...v0.3.1)
+
+:hammer: Other:
+
+- Ensure repo/commit information is provided with the package [\#4](https://github.com/devlooped/Azure.Functions.OpenApi/issues/4)
+
 ## [v0.3.0](https://github.com/devlooped/Azure.Functions.OpenApi/tree/v0.3.0) (2021-09-30)
 
 [Full Changelog](https://github.com/devlooped/Azure.Functions.OpenApi/compare/v0.2.0...v0.3.0)
