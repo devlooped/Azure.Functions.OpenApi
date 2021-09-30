@@ -1,0 +1,23 @@
+<Project>
+
+  <ItemDefinitionGroup>
+    <OpenApi>
+      <!-- Title, Description and Version from https://swagger.io/specification/v2/#info-object -->
+      <Title />
+      <Description />
+      <Version />
+      <!-- The route to the swagger.json file.  -->
+      <Route />
+      <Url />
+      <SchemaVersion>2</SchemaVersion>
+    </OpenApi>
+  </ItemDefinitionGroup>
+
+  <Import Project="Devlooped.Azure.Functions.OpenApi.Build.targets" 
+          Condition="'$(Language)' == 'C#' and '$(DesignTimeBuild)' != 'true'" />
+
+  <Target Name="EnsureCsharp" BeforeTargets="Build" Condition="'$(Language)' != 'C#'">
+    <Error Text="This project only supports C# language since it uses its source generator feature" />
+  </Target>
+  
+</Project>

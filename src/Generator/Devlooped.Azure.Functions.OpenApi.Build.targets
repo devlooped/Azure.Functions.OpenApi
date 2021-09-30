@@ -1,0 +1,95 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Ensure we can get the functions documentation from the source generator -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- But don't generate missing API docs warnings unnecessarily -->
+    <NoWarn>CS1591;$(NoWarn)</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Analyzer Include="$(MSBuildThisFileDirectory)*.dll" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <CompilerVisibleProperty Include="MSBuildProjectDirectory" />
+    <CompilerVisibleProperty Include="IntermediateOutputPath" />
+    <CompilerVisibleProperty Include="OutputPath" />
+
+    <!-- Set $(DebugSwaggerGenerator)=true to launch a debugger whenever the generator runs -->
+    <CompilerVisibleProperty Include="DebugSwaggerGenerator" />
+
+    <!-- Used to build the license URL -->
+    <CompilerVisibleProperty Include="PackageLicenseExpression" />
+
+    <CompilerVisibleItemMetadata Include="OpenApi" MetadataName="Title" />
+    <CompilerVisibleItemMetadata Include="OpenApi" MetadataName="Description" />
+    <CompilerVisibleItemMetadata Include="OpenApi" MetadataName="Route" />
+    <CompilerVisibleItemMetadata Include="OpenApi" MetadataName="SchemaVersion" />
+    <CompilerVisibleItemMetadata Include="OpenApi" MetadataName="Version" />
+    <CompilerVisibleItemMetadata Include="OpenApi" MetadataName="Url" />
+  </ItemGroup>
+
+  <Target Name="_CollectOpenApi" BeforeTargets="PrepareForBuild;CompileDesignTime;GetAssemblyVersion;GenerateMSBuildEditorConfigFileShouldRun"
+          Returns="@(OpenApi)">
+
+    <Error Condition="$(Language) != 'C#'" Text="This package only works for C# projects since it uses a Roslyn source generator." />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)\host.json')" Text="host.json file not found in current project." />
+
+    <JsonPeek Query="$.extensions.http.routePrefix" ContentPath="$(MSBuildProjectDirectory)\host.json" Empty="$empty">
+      <Output TaskParameter="Result" PropertyName="HttpRoutePrefix" />
+    </JsonPeek>
+
+    <PropertyGroup>
+      <!-- If no nodes were matched at all, the default value is actually /api in azure functions -->
+      <HttpRoutePrefix Condition="'$(HttpRoutePrefix)' == ''">/api</HttpRoutePrefix>
+      <!-- But if we got the special $empty value, then it should actually be / from the root. -->
+      <HttpRoutePrefix Condition="'$(HttpRoutePrefix)' == '$empty'">/</HttpRoutePrefix>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'@(OpenApi)' == ''">
+      <OpenApi Include="$(AssemblyName)" />
+    </ItemGroup>
+    <ItemGroup>
+      <OpenApi>
+        <Route Condition="'%(Route)' == ''">/openapi/v%(SchemaVersion)/swagger.json</Route>
+        <Url Condition="'%(Url)' == ''">$(HttpRoutePrefix)</Url>
+        <Title Condition="'%(Title)' == ''">$(AssemblyTitle)</Title>
+      </OpenApi>
+      <OpenApi>
+        <Title Condition="'%(Title)' == ''">$(Product)</Title>
+      </OpenApi>
+      <OpenApi>
+        <Title Condition="'%(Title)' == ''">$(ProductName)</Title>
+      </OpenApi>
+      <OpenApi>
+        <Title Condition="'%(Title)' == ''">$(Title)</Title>
+        <Description Condition="'%(Description)' == ''">$(Description)</Description>
+        <Version Condition="'%(Version)' == ''">$(Version)</Version>
+      </OpenApi>
+      <OpenApi>
+        <Version Condition="'%(Version)' == ''">$(InformationalVersion)</Version>
+      </OpenApi>
+      <OpenApi>
+        <Version Condition="'%(Version)' == ''">$(AssemblyVersion)</Version>
+      </OpenApi>
+      <OpenApi>
+      </OpenApi>
+      <AdditionalFiles Include="@(OpenApi)" SourceItemType="OpenApi" />
+      <OpenApiFile Include="@(OpenApi -> '$(IntermediateOutputPath)/%(Route)')"
+                   Link="%(OpenApi.Route)"
+                   TargetPath="%(OpenApi.Route)"
+                   CopyToOutputDirectory="PreserveNewest"
+                   CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="_CopyOpenApiToOutput" AfterTargets="_FunctionsBuildCleanOutput;_FunctionsPublishCleanOutput">
+    <Copy SourceFiles="@(OpenApiFile)" DestinationFiles="$(OutputPath)%(TargetPath)" />
+  </Target>
+
+  <Target Name="_CopyOpenApiToPublish" AfterTargets="_FunctionsPublishCleanOutput">
+    <Copy SourceFiles="@(OpenApiFile)" DestinationFiles="$(PublishDir)%(TargetPath)" />
+  </Target>
+
+</Project>

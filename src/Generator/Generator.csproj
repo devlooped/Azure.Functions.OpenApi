@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Devlooped.Azure.Functions.OpenApi</AssemblyName>
+    <RootNamespace>Devlooped</RootNamespace>
+    <Description>OpenAPI/Swagger Generator for C# Azure Functions</Description>
+    <IsPackable>true</IsPackable>
+    <PackFolder>build/netstandard2.0</PackFolder>
+    <PackageTags>dotnet azure functions roslyn sourcegenerator csharp swagger openapi</PackageTags>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <PackageProjectUrl>https://clarius.org/Azure.Functions.OpenApi</PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackNone>true</PackNone>
+
+    <OpenApiVersion>1.2.3</OpenApiVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NuGetizer" Version="0.7.4" PrivateAssets="all" />
+    <PackageReference Include="IsExternalInit" Version="1.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.11.0" Pack="false" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" Pack="false" />
+    <PackageReference Include="Microsoft.OpenApi" Version="$(OpenApiVersion)" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.1" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.0" />
+    <PackageReference Include="JsonPeek" Version="1.0.3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\readme.md" PackagePath="readme.md" />
+    <EmbeddedResource Include="OpenApiUI.txt" />
+    <EmbeddedResource Include="OpenApiFunction.txt" />
+    
+    <!-- We need to include the lib for our own generator usage -->
+    <PackageFile Include="/lib/netstandard2.0/Microsoft.OpenApi.dll" PackageReference="Microsoft.OpenApi" PackFolder="$(PackFolder)" />
+    <!-- Alternative using built-in None and inference CopyToOutputDirectory=Pack -->
+    <!--
+    <None Include="$(PkgMicrosoft_OpenApi)/lib/netstandard2.0/Microsoft.OpenApi.dll" 
+          CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    -->
+
+    <!-- But also pack it as a dependency for the generated code -->
+    <PackageFile Include="Microsoft.OpenApi" Version="$(OpenApiVersion)" PackFolder="Dependency" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Pack targets properly for build -->
+    <None Update="Devlooped.Azure.Functions.OpenApi.*" PackFolder="build/netstandard2.0" />
+  </ItemGroup>
+  
+</Project>

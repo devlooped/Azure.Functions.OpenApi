@@ -1,0 +1,48 @@
+﻿using System.Diagnostics;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
+using Microsoft.Extensions.FileProviders;
+using Swashbuckle.AspNetCore.SwaggerUI;
+
+partial class OpenApi
+{
+    [FunctionName("openapi-ui")]
+    public HttpResponseMessage RunUI(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "GET", Route = "openapi/{rest?}")] HttpRequestMessage req,
+        string? rest)
+    {
+        if (Environment.GetEnvironmentVariable("ATTACH_DEBUGGER") is string debug &&
+            bool.TryParse(debug, out var attach) && attach && !Debugger.IsAttached)
+            Debugger.Launch();
+
+        var provider = new EmbeddedFileProvider(typeof(SwaggerUIMiddleware).Assembly, "Swashbuckle.AspNetCore.SwaggerUI.node_modules.swagger_ui_dist");
+        HttpResponseMessage response;
+
+        if (rest == null || rest.EndsWith("index.html"))
+        {
+            var file = provider.GetFileInfo(rest ?? "index.html");
+            if (!file.Exists)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            using var fs = file.CreateReadStream();
+            var builder = new StringBuilder(new StreamReader(fs).ReadToEnd());
+
+            builder.Replace("https://petstore.swagger.io/v2/swagger.json", "$default$");
+
+            response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(builder.ToString(), Encoding.UTF8, "text/html");
+        }
+        else
+        {
+            var file = provider.GetFileInfo(rest);
+            if (!file.Exists)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StreamContent(file.CreateReadStream());
+        }
+
+        return response;
+    }
+}
