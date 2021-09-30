@@ -1,0 +1,5 @@
+<Project>
+
+  <Import Project="Devlooped.Azure.Functions.OpenApi.Build.props" Condition="'$(DesignTimeBuild)' != 'true'" />
+
+</Project>

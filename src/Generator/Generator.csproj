@@ -47,5 +47,5 @@
     <!-- Pack targets properly for build -->
     <None Update="Devlooped.Azure.Functions.OpenApi.*" PackFolder="$(PackFolder)" />
   </ItemGroup>
-  
+
 </Project>

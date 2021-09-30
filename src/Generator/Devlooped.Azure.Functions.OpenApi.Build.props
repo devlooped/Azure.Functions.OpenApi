@@ -1,0 +1,10 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Ensure we can get the functions documentation from the source generator -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- But don't generate missing API docs warnings unnecessarily -->
+    <NoWarn>CS1591;$(NoWarn)</NoWarn>
+  </PropertyGroup>
+
+</Project>
