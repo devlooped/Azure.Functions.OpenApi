@@ -11,7 +11,6 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <PackageProjectUrl>https://clarius.org/Azure.Functions.OpenApi</PackageProjectUrl>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackNone>true</PackNone>
 
     <OpenApiVersion>1.2.3</OpenApiVersion>
   </PropertyGroup>
@@ -46,7 +45,7 @@
 
   <ItemGroup>
     <!-- Pack targets properly for build -->
-    <None Update="Devlooped.Azure.Functions.OpenApi.*" PackFolder="build/netstandard2.0" />
+    <None Update="Devlooped.Azure.Functions.OpenApi.*" PackFolder="$(PackFolder)" />
   </ItemGroup>
   
 </Project>
