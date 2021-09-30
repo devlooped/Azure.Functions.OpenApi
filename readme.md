@@ -1,4 +1,4 @@
-![Icon](https://raw.githubusercontent.com/devlooped/Azure.Functions.OpenApi/main/assets/img/icon-32.png) OpenAPI Generator for C# Azure Functions
+![Icon](https://raw.githubusercontent.com/devlooped/Azure.Functions.OpenApi/main/assets/img/icon-32.png) OpenAPI/Swagger Source Generator for C# Azure Functions
 ============
 
 [![Version](https://img.shields.io/nuget/vpre/Devlooped.Azure.Functions.OpenApi.svg?color=royalblue)](https://www.nuget.org/packages/Devlooped.Azure.Functions.OpenApi)

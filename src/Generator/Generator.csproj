@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Devlooped.Azure.Functions.OpenApi</AssemblyName>
     <RootNamespace>Devlooped</RootNamespace>
-    <Description>OpenAPI/Swagger Generator for C# Azure Functions</Description>
+    <Description>OpenAPI/Swagger Source Generator for C# Azure Functions</Description>
     <IsPackable>true</IsPackable>
     <PackFolder>build/netstandard2.0</PackFolder>
     <PackageTags>dotnet azure functions roslyn sourcegenerator csharp swagger openapi</PackageTags>

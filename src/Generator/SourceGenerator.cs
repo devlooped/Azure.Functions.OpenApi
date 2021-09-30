@@ -139,10 +139,10 @@ public class SourceGenerator : ISourceGenerator
                 License = license,
                 Version = openApis[0].Version,
             },
-            Servers = openApis.Select(x => new OpenApiServer 
-            { 
-                Description = x.Description, 
-                Url = x.Url 
+            Servers = openApis.Select(x => new OpenApiServer
+            {
+                Description = x.Description,
+                Url = x.Url
             }).ToList(),
             Paths = paths,
         };
@@ -188,12 +188,12 @@ public class SourceGenerator : ISourceGenerator
 
                 path.AddOperation(operation, new OpenApiOperation
                 {
-                    Summary = doc?.Summary ?? "", 
+                    Summary = doc?.Summary ?? "",
                     Description = doc?.Remarks ?? "",
                     Parameters = parameters,
                     Responses = new OpenApiResponses
                     {
-                        { 
+                        {
                             "default",
                             new OpenApiResponse
                             {
@@ -321,7 +321,7 @@ public class SourceGenerator : ISourceGenerator
                 trigger.NamedArguments
                     .Where(x => x.Key == "Route")
                     .Select(x => (string)x.Value.Value!)
-                    .FirstOrDefault() ?? (string)func.ConstructorArguments[0].Value!, 
+                    .FirstOrDefault() ?? (string)func.ConstructorArguments[0].Value!,
                 trigger.ConstructorArguments
                     .Where(x => x.Kind == TypedConstantKind.Array)
                     .SelectMany(x => x.Values)
