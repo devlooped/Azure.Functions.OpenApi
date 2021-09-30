@@ -63,7 +63,6 @@ pieces of metadata to tweak the output. Its item definition is as follows:
 ```xml
   <ItemDefinitionGroup>
     <OpenApi>
-      <!-- Title, Description and Version from https://swagger.io/specification/v2/#info-object -->
       <Title />
       <Description />
       <Version />
@@ -74,6 +73,8 @@ pieces of metadata to tweak the output. Its item definition is as follows:
   </ItemDefinitionGroup>
 
 ```
+
+If no `<OpenApi Include="..">` is provided, one is automatically added, with the default values applied.
 
 The default values are:
 - `Title`: first with a non-empty value from `$(AssemblyTitle)`, `$(Product)`, `$(ProductName)`, `$(Title)`.
