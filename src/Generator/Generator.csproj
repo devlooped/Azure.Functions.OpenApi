@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
     <PackageReference Include="NuGetizer" Version="0.7.4" PrivateAssets="all" />
     <PackageReference Include="IsExternalInit" Version="1.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.11.0" Pack="false" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.3.1" Pack="false" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" Pack="false" />
     <PackageReference Include="Microsoft.OpenApi" Version="$(OpenApiVersion)" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.1" />
